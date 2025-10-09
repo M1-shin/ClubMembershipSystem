@@ -394,7 +394,6 @@ public class Main {
                                 "INSERT INTO users_tbl(name, email, pass, role, department, year_lvl) VALUES (?, ?, ?, ?, ?, ?)",
                                 name, newEmail, p, tp, dept, yr
                         );
-                        System.out.println("Registration successful!");
                     }
                     break;
 
@@ -406,7 +405,7 @@ public class Main {
                     System.out.println("Invalid choice.");
             }
 
-            System.out.print("\nDo you want to continue? (Y/N): ");
+            System.out.print("\nDo you want to continue? (Y/N): \n");
             cont = sc.next().charAt(0);
 
         } while (cont == 'Y' || cont == 'y');
