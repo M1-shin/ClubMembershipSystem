@@ -179,4 +179,23 @@ public java.util.List<java.util.Map<String, Object>> fetchRecords(String sqlQuer
     public void viewRecords(String select__from_clubs_tbl_WHERE_created_by, String[] string, String[] string0, int stuId) {
         throw new UnsupportedOperationException("Not supported yet."); 
     }
+    
+    public String hashPassword(String password) {
+    try {
+        java.security.MessageDigest md = java.security.MessageDigest.getInstance("SHA-256");
+        byte[] hashedBytes = md.digest(password.getBytes(java.nio.charset.StandardCharsets.UTF_8));
+        
+        // Convert byte array to hex string
+        StringBuilder hexString = new StringBuilder();
+        for (byte b : hashedBytes) {
+            String hex = Integer.toHexString(0xff & b);
+            if (hex.length() == 1) hexString.append('0');
+            hexString.append(hex);
+        }
+        return hexString.toString();
+    } catch (java.security.NoSuchAlgorithmException e) {
+        System.out.println("Error hashing password: " + e.getMessage());
+        return null;
+    }
+}
 }
