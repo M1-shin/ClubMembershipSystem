@@ -175,4 +175,8 @@ public java.util.List<java.util.Map<String, Object>> fetchRecords(String sqlQuer
 
     return records;
 }
+
+    public void viewRecords(String select__from_clubs_tbl_WHERE_created_by, String[] string, String[] string0, int stuId) {
+        throw new UnsupportedOperationException("Not supported yet."); 
+    }
 }
