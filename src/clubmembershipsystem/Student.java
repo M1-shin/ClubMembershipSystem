@@ -138,8 +138,6 @@ public class Student {
                         "UPDATE clubs_tbl SET c_name=?, c_type=?, dep_club=? WHERE c_id=? AND status='Pending'",
                         newName, newType, newDep, upClubId
                     );
-
-                    System.out.println("Club application updated successfully!");
                     break;
 
                 case 5:
@@ -164,7 +162,6 @@ public class Student {
                     con.deleteRecord(
                         "DELETE FROM clubs_tbl WHERE c_id=? AND status='Pending'", remClubId
                     );
-                    System.out.println("Club application removed successfully!");
                     break;
 
                 case 6:

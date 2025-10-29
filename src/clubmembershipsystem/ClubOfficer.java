@@ -79,7 +79,6 @@ public class ClubOfficer {
                                 "INSERT INTO membership_tbl (u_id, c_id, pos_id, join_date) VALUES (?, ?, ?, CURRENT_DATE)",
                                 userId, clubId, positionId
                             );
-                            System.out.println("✅ Member added successfully!");
                             break;
 
                         case 2:
@@ -110,7 +109,6 @@ public class ClubOfficer {
                             int newPosId = sc.nextInt();
 
                             con.updateRecord("UPDATE membership_tbl SET pos_id=? WHERE mem_id=?", newPosId, memEdit);
-                            System.out.println("✅ Position updated successfully!");
                             break;
 
                         case 3:
@@ -131,7 +129,6 @@ public class ClubOfficer {
                             System.out.print("\nEnter Membership ID to remove: ");
                             int memRemove = sc.nextInt();
                             con.deleteRecord("DELETE FROM membership_tbl WHERE mem_id=?", memRemove);
-                            System.out.println("✅ Member removed successfully!");
                             break;
 
                         default:

@@ -169,7 +169,6 @@ public class SAO {
                             System.out.print("Enter Membership ID to remove: ");
                             int removeMem = sc.nextInt();
                             con.updateRecord("DELETE FROM membership_tbl WHERE mem_id=?", removeMem);
-                            System.out.println("Member removed successfully!");
                             break;
 
                         default:
