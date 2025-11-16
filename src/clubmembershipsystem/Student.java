@@ -171,7 +171,7 @@ public class Student {
                     System.out.println("Invalid choice.");
             }
 
-            System.out.print("Continue? (Y/N): ");
+            System.out.print("Continue as Student? (Y/N): ");
             cont = sc.next().charAt(0);
 
         } while (cont == 'Y' || cont == 'y');

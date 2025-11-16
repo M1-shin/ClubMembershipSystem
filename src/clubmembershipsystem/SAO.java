@@ -85,26 +85,20 @@ public class SAO {
                     System.out.print("Enter Club ID to manage: ");
                     int manageClubId = sc.nextInt();
 
-                    String memQry =
-                        "SELECT m.mem_id, u.name, p.pos_name " +
+                    String membersQry =
+                        "SELECT m.mem_id, u.u_id, u.name, u.department, u.year_lvl, p.pos_name " +
                         "FROM membership_tbl m " +
                         "JOIN users_tbl u ON m.u_id=u.u_id " +
-                        "JOIN position_tbl p ON m.pos_id=p.pos_id " +
-                        "WHERE m.c_id=?";
-                    List<Map<String, Object>> clubMembers = con.fetchRecords(memQry, manageClubId);
+                        "LEFT JOIN position_tbl p ON m.pos_id=p.pos_id " +
+                        "WHERE m.c_id=" + manageClubId;
 
                     System.out.println("\n--- Club Members ---");
-                    if (clubMembers.isEmpty()) {
-                        System.out.println("No members yet.");
-                    } else {
-                        for (Map<String, Object> mem : clubMembers) {
-                            System.out.println(
-                                "ID: " + mem.get("mem_id") +
-                                " | Name: " + mem.get("name") +
-                                " | Position: " + mem.get("pos_name")
-                            );
-                        }
-                    }
+
+                    con.viewRecords(
+                        membersQry,
+                        new String[]{"Membership ID", "User ID", "Name", "Department", "Year Level", "Position"},
+                        new String[]{"mem_id", "u_id", "name", "department", "year_lvl", "pos_name"}
+                    );
 
                     System.out.println("\n1. Assign President");
                     System.out.println("2. Add Member");
@@ -113,9 +107,17 @@ public class SAO {
                     int manageOpt = sc.nextInt();
 
                     switch (manageOpt) {
-                        case 1:
+
+                        case 1: 
+                            con.viewRecords(
+                                membersQry,
+                                new String[]{"Membership ID", "User ID", "Name", "Department", "Year Level", "Position"},
+                                new String[]{"mem_id", "u_id", "name", "department", "year_lvl", "pos_name"}
+                            );
+
                             System.out.print("Enter Membership ID to assign as President: ");
                             int presMemId = sc.nextInt();
+
                             List<Map<String, Object>> presPos =
                                 con.fetchRecords("SELECT pos_id FROM position_tbl WHERE pos_name='President'");
                             if (!presPos.isEmpty()) {
@@ -128,12 +130,22 @@ public class SAO {
                                     int uId = Integer.parseInt(memUser.get(0).get("u_id").toString());
                                     con.updateRecord("UPDATE users_tbl SET role='CLUB OFFICER' WHERE u_id=?", uId);
                                 }
-                            } else {
-                                System.out.println("President position not found in position_tbl.");
                             }
                             break;
 
-                        case 2:
+                        case 2:  
+                            String eligQry =
+                                "SELECT u.u_id, u.name, u.department, u.year_lvl " +
+                                "FROM users_tbl u " +
+                                "WHERE u.role='STUDENT' AND u.u_id NOT IN " +
+                                "(SELECT u_id FROM membership_tbl WHERE c_id=" + manageClubId + ")";
+
+                            con.viewRecords(
+                                eligQry,
+                                new String[]{"User ID", "Name", "Department", "Year Level"},
+                                new String[]{"u_id", "name", "department", "year_lvl"}
+                            );
+
                             System.out.print("Enter User ID to add as member: ");
                             int newUserId = sc.nextInt();
 
@@ -165,7 +177,13 @@ public class SAO {
                             }
                             break;
 
-                        case 3:
+                        case 3:  
+                            con.viewRecords(
+                                membersQry,
+                                new String[]{"Membership ID", "User ID", "Name", "Department", "Year Level", "Position"},
+                                new String[]{"mem_id", "u_id", "name", "department", "year_lvl", "pos_name"}
+                            );
+
                             System.out.print("Enter Membership ID to remove: ");
                             int removeMem = sc.nextInt();
                             con.updateRecord("DELETE FROM membership_tbl WHERE mem_id=?", removeMem);
